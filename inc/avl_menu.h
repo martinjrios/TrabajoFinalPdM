@@ -11,10 +11,14 @@
 
 #define REAL_TERMINAL
 
-#define PASS_LENGTH		10
-#define MAX_TEXT		32
-#define DEVID_LENGTH	9
-#define SERVER_LENGTH	32
+#define PASS_LENGTH				10
+#define MAX_TEXT				32
+#define DEVID_LENGTH			9
+#define SERVER_LENGTH			32
+
+#define STATUS_REFRESH_TIME		2000 // ms
+
+#define OPTIONS_START_POS		6
 
 typedef enum
 {
@@ -23,7 +27,7 @@ typedef enum
 	MAIN_MENU,
 	CONFIG_ID,
 	CONFIG_SERVER,
-	CONFIG_SIM,
+	SHOW_PARAMETERS,
 	SHOW_DEVICE_STATUS,
 	OPEN,
 	SAVE,
@@ -34,7 +38,7 @@ typedef enum
 {
 	OPTION_CONFIG_ID = 0,
 	OPTION_CONFIG_SERVER,
-	OPTION_CONFIG_SIM,
+	OPTION_SHOW_PARAMETERS,
 	OPTION_SHOW_DEVICE_STATUS,
 	OPTION_OPEN,
 	OPTION_SAVE,
@@ -47,8 +51,15 @@ typedef enum
 	OPTION_NO,
 }optionConfirm_t;
 
+typedef enum
+{
+	WAITING_INPUT,
+	WAITING_OPTION,
+}stateSubmenu_t;
+
 void updateMenuFSM();
 static void showMainMenu();
+static void showMenu(const char *menuText, const char *menuFooter, const char **options, uint8_t nrOptions);
 static bool_t checkPassword(char *password);
 
 #endif /* TPFINALPDM_TRABAJOFINALPDM_INC_AVL_MENU_H_ */

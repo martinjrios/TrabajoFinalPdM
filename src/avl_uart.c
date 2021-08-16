@@ -17,7 +17,7 @@ void UART_Init(uartMap_t _uart)
 	uartInit ( menuUart, MENU_UART_BAUDRATE );
 }
 
-uint8_t UART_waitOption()
+uint8_t UART_readOption()
 {
 	char optionAscii;
 	char inputLine[MAX_INPUT_LINE];
@@ -37,10 +37,12 @@ uint8_t UART_waitOption()
 
 uint8_t UART_ReadLine(char *lineRead, uint8_t maxLength)
 {
-	uint8_t byteRead, byteCount = 0;
+	uint8_t byteRead, byteCount = 0, i;
 	delay_t uartTimeout;
 
 	if(maxLength < 1) return FALSE;
+
+	for(i = 0; i < maxLength; i++)  lineRead[i] = '\0'; // limpio el str
 
 	delayInit ( &uartTimeout, UART_TIMEOUT);
 
@@ -59,7 +61,6 @@ uint8_t UART_ReadLine(char *lineRead, uint8_t maxLength)
 	else lineRead[byteCount-1] = '\0'; // Coloco el \0 para finalizar el string
 
 	delay(1);  // Espero 1 ms para que se termine de cargar en el buffer de la UART lo que haya quedado pendiente de lectura
-	//UART_RxFlush();
 	uartRxFlush(menuUart); // Limpio lo que haya quedado en el buffer
 
 	return byteCount;
@@ -94,22 +95,45 @@ void UART_ShowOptions(const char **menuOptions, uint8_t lastOptionIndex)
 	}
 }
 
+void UART_sendTerminalCommand(const char *command)
+{
+	uartWriteByte(menuUart, 27); // envio el caracter ESC
+	uartWriteString(menuUart, command); // envio el comando
+}
+
 void UART_clearTerminal()
 {
-	uartWriteByte(menuUart, 27); // ESC
-	uartWriteString(menuUart, "[2J"); // Clear Screen
+	UART_sendTerminalCommand(CLEAR_SCREEN);
 }
 
 void UART_cursorHome()
 {
-	uartWriteByte(menuUart, 27); // ESC
-	uartWriteString(menuUart, "[H"); // Cursor to home
+	UART_sendTerminalCommand(CURSOR_HOME);
 }
 
-void UART_RxFlush()
+void UART_getCursorPosition()
 {
-   while ( UART_Available() ) {
-      uartRxRead(menuUart);
-      delay(1);
-   }
+	char readLine[32];
+	uartWriteByte(menuUart, 27); // ESC
+	uartWriteString(menuUart, GET_CURSOR_POS); // Cursor to home
+	UART_ReadLine(readLine, 32);
+	uartWriteString(menuUart, readLine);
 }
+
+void UART_setCursorPosition(uint8_t v, uint8_t h)
+{
+	char command[11];
+
+	sprintf(command, "[%d;%df", v, h);
+	UART_sendTerminalCommand(command);
+}
+
+void UART_moveCursorNDown(uint8_t n)
+{
+	char command[11];
+
+	sprintf(command, "[%dB", n);
+	UART_sendTerminalCommand(command);
+}
+
+

@@ -10,6 +10,7 @@ Autor: Martín J. Rios - jrios@fi.uba.ar
 ### Resumen
 Menú de configuración de un precinto electrónico para que un usuario, conectado mediante una terminal serie, pueda configurar los parámetros de conexión del equipo (ID del equipo y DNS del servidor), visualizar el estado del equipo (tensión de batería y estado abierto/cerrado) y realizar la apertura activando la salida correspondiente.
 
+```sh
 +================================================================+
 |                      MENU DE CONFIGURACION                     |
 +================================================================+
@@ -24,18 +25,19 @@ Menú de configuración de un precinto electrónico para que un usuario, conecta
 
 +================================================================+
 Ingrese el numero de una de las opciones y presione ENTER: 
+```
 
-#### Condiciones de funcionamiento
-###### Ejecución
+### Condiciones de funcionamiento
+#### Ejecución
 Ejecutar en una terminal serie que soporte los códigos de escape VT100. Por ejemplo, en Linux utilizar GTKTerm.
 
-###### Dependencias externas:
+#### Dependencias externas:
  - sAPI.h
 
 #### Modularización
 ![](https://github.com/martinjrios/TrabajoFinalPdM/blob/main/imagenes/capas.svg)
 
-###### Archivos de modularización
+##### Archivos de modularización
 | File name | hearders                    |
 | ------------- | ------------------------------ |
 | [avl_main.c](https://github.com/martinjrios/TrabajoFinalPdM/blob/main/src/avl_main.c)|[avl_main.h](https://github.com/martinjrios/TrabajoFinalPdM/blob/main/inc/avl_main.h)|

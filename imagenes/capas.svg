@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="14cm" height="7cm" viewBox="641 137 271 125" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g id="Fondo">
+    <g>
+      <rect style="fill: #e5e5e5; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="642.19" y="138.711" width="267.993" height="38" rx="0" ry="0"/>
+      <text font-size="12.7998" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="776.187" y="161.611">
+        <tspan x="776.187" y="161.611">AVL_MAIN</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #ababab; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="642.248" y="180.171" width="267.958" height="38" rx="0" ry="0"/>
+      <text font-size="12.7998" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="776.228" y="203.071">
+        <tspan x="776.228" y="203.071">AVL_MENU</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #737373; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="642.137" y="222.389" width="86.2" height="38.6875" rx="0" ry="0"/>
+      <text font-size="12.7998" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="685.237" y="245.632">
+        <tspan x="685.237" y="245.632">AVL_UART</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #737373; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="733.429" y="222.389" width="86.2" height="38.6875" rx="0" ry="0"/>
+      <text font-size="12.7998" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="776.529" y="245.632">
+        <tspan x="776.529" y="245.632">AVL_ADC</tspan>
+      </text>
+    </g>
+    <g>
+      <rect style="fill: #737373; fill-opacity: 1; stroke-opacity: 1; stroke-width: 2; stroke: #000000" x="824.381" y="222.389" width="86.2" height="38.6875" rx="0" ry="0"/>
+      <text font-size="12.7998" style="fill: #000000; fill-opacity: 1; stroke: none;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="867.481" y="245.632">
+        <tspan x="867.481" y="245.632">AVL_GPIO</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

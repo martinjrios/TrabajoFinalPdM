@@ -136,4 +136,12 @@ void UART_moveCursorNDown(uint8_t n)
 	UART_sendTerminalCommand(command);
 }
 
+void UART_moveCursorNUp(uint8_t n)
+{
+	char command[11];
+
+	sprintf(command, "[%dA", n);
+	UART_sendTerminalCommand(command);
+}
+
 

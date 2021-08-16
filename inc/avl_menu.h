@@ -18,7 +18,8 @@
 
 #define STATUS_REFRESH_TIME		2000 // ms
 
-#define OPTIONS_START_POS		6
+#define OPTIONS_START_Y_POS		6
+#define OPTIONS_START_X_POS		1
 
 typedef enum
 {

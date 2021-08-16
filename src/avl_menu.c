@@ -170,7 +170,7 @@ void updateMenuFSM()
 			if(UART_Available())
 			{
 				len = UART_ReadLine(devId, DEVID_LENGTH);
-				if(len == DEVID_LENGTH - 1)
+				if(len == DEVID_LENGTH - 1)  // Se muestra lo ingresado
 				{
 					UART_setCursorPosition(OPTIONS_START_Y_POS,OPTIONS_START_X_POS);
 					UART_Write(receivedText);
@@ -178,7 +178,7 @@ void updateMenuFSM()
 					UART_Write(subMenuFooter);
 					stateSubmenu = WAITING_OPTION;
 				}
-				else
+				else // Se muestra que hubo un error
 				{
 					UART_sendTerminalCommand(CLEAR_LINE);
 					UART_sendTerminalCommand(MOVE_NEXT_LINE);
@@ -192,7 +192,7 @@ void updateMenuFSM()
 			if(UART_Available())
 			{
 				menuOption = UART_readOption();
-				if(menuOption != 0xFF)
+				if(menuOption != INVALID_OPTION) // Si es una opcion valida se procede a ejecutar la opcion
 				{
 					switch((optionConfirm_t)menuOption)
 					{
@@ -222,7 +222,7 @@ void updateMenuFSM()
 			if(UART_Available())
 			{
 				len = UART_ReadLine(serverAddress, SERVER_LENGTH);
-				if(len < SERVER_LENGTH - 1)
+				if(len < SERVER_LENGTH - 1)  // Se muestra lo ingresado
 				{
 					UART_setCursorPosition(OPTIONS_START_Y_POS,OPTIONS_START_X_POS);
 					UART_Write(receivedText);
@@ -230,7 +230,7 @@ void updateMenuFSM()
 					UART_Write(subMenuFooter);
 					stateSubmenu = WAITING_OPTION;
 				}
-				else
+				else // Se muestra que hubo un error
 				{
 					UART_sendTerminalCommand(CLEAR_LINE);
 					UART_sendTerminalCommand(MOVE_NEXT_LINE);
@@ -244,7 +244,7 @@ void updateMenuFSM()
 			if(UART_Available())
 			{
 				menuOption = UART_readOption();
-				if(menuOption != 0xFF)
+				if(menuOption != INVALID_OPTION)
 				{
 					switch((optionConfirm_t)menuOption)
 					{
@@ -271,7 +271,7 @@ void updateMenuFSM()
 		if(UART_Available())
 		{
 			menuOption = UART_readOption();
-			if(menuOption != 0xFF)
+			if(menuOption != INVALID_OPTION)
 			{
 				switch((optionConfirm_t)menuOption)
 				{
@@ -315,7 +315,7 @@ void updateMenuFSM()
 		if(UART_Available())
 		{
 			menuOption = UART_readOption();
-			if(menuOption != 0xFF)
+			if(menuOption != INVALID_OPTION)
 			{
 				switch((optionConfirm_t)menuOption)
 				{
@@ -344,7 +344,7 @@ void updateMenuFSM()
 		if(UART_Available())
 		{
 			menuOption = UART_readOption();
-			if(menuOption != 0xFF)
+			if(menuOption != INVALID_OPTION)
 			{
 				switch((optionConfirm_t)menuOption)
 				{

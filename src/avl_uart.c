@@ -11,38 +11,52 @@
 
 static uartMap_t menuUart;
 
+/*
+ * @brief   Inicializa la UART
+ * @param   La UART que se va a utilizar para manejar el menu
+ */
 void UART_Init(uartMap_t _uart)
 {
 	menuUart = _uart;
 	uartInit ( menuUart, MENU_UART_BAUDRATE );
 }
 
+/*
+ * @brief   Lee la opcion ingresada desde la terminal
+ * @return  El valor numerico de la opcion ingresada
+ */
 uint8_t UART_readOption()
 {
 	char optionAscii;
-	char inputLine[MAX_INPUT_LINE];
+	char inputBuffer[MAX_INPUT_BUFFER];
 	uint8_t optionNumber = INVALID_OPTION, len;
 
-	len = UART_ReadLine(inputLine, MAX_INPUT_LINE);
+	len = UART_ReadLine(inputBuffer, MAX_INPUT_BUFFER);
 
 	if(len > 0)
 	{
-		if(!isalpha(inputLine[0])) optionNumber = atoi(inputLine);
+		if(!isalpha(inputBuffer[0])) optionNumber = atoi(inputBuffer);  // Se comprueba que lo ingresado sea un numero
 		else optionNumber = INVALID_OPTION;
 	}
-	else optionNumber = INVALID_OPTION;
+	else optionNumber = INVALID_OPTION; // Si no se ingreso un valor se toma como opcion invalida
 	
 	return optionNumber;
 }
 
-uint8_t UART_ReadLine(char *lineRead, uint8_t maxLength)
+/*
+ * @brief   Lee una linea desde la UART y la almacena en un buffer
+ * @param	El buffer para almacenar la linea leida
+ * @param	La longitud maxima del buffer
+ * @return  La cantidad de bytes leidos sin contar el caracter de final de linea
+ */
+uint8_t UART_ReadLine(char *readBuffer, uint8_t maxLength)
 {
 	uint8_t byteRead, byteCount = 0, i;
 	delay_t uartTimeout;
 
-	if(maxLength < 1) return FALSE;
+	if(maxLength < 1) return FALSE;  // Si la longitud del buffer es 0 se sale ya que no tendra espacio para almacenar algun caracter
 
-	for(i = 0; i < maxLength; i++)  lineRead[i] = '\0'; // limpio el str
+	for(i = 0; i < maxLength; i++)  readBuffer[i] = '\0'; // limpio el str
 
 	delayInit ( &uartTimeout, UART_TIMEOUT);
 
@@ -50,15 +64,15 @@ uint8_t UART_ReadLine(char *lineRead, uint8_t maxLength)
 	{
 		if(uartReadByte(menuUart, &byteRead))
 		{
-			if('\n' == byteRead || '\r' == byteRead || '\0' == byteRead) break;
-			*lineRead++ = (char) byteRead;
+			if('\n' == byteRead || '\r' == byteRead || '\0' == byteRead) break; // Si se detecta alguno de los caracteres delimitadores de linea, se sale
+			*readBuffer++ = (char) byteRead;
 			byteCount++;
 		}
-		else if(delayRead(&uartTimeout)) break;
+		else if(delayRead(&uartTimeout)) break;  // Si no se encontro el caracter delimitador y se cumplio el tiempo maximo, se sale
 	}
 
-	if(byteCount < maxLength) lineRead[byteCount] = '\0'; // Coloco el \0 para finalizar el string
-	else lineRead[byteCount-1] = '\0'; // Coloco el \0 para finalizar el string
+	if(byteCount < maxLength) readBuffer[byteCount] = '\0'; // Coloco el \0 para finalizar el string
+	else readBuffer[byteCount-1] = '\0'; // Si se ingreso la cantidad maxima de caracteres sin un delimitador de linea, se Coloca el \0 para finalizar el string en la ultima posicion
 
 	delay(1);  // Espero 1 ms para que se termine de cargar en el buffer de la UART lo que haya quedado pendiente de lectura
 	uartRxFlush(menuUart); // Limpio lo que haya quedado en el buffer
@@ -66,22 +80,39 @@ uint8_t UART_ReadLine(char *lineRead, uint8_t maxLength)
 	return byteCount;
 }
 
+/*
+ * @brief   Escribe una cadena en la UART con la terminacion \r\n
+ * @param	La cadena a escribir
+ */
 void UART_WriteLine(const char *line)
 {
 	uartWriteString(menuUart, line);
 	uartWriteString(menuUart, "\r\n");
 }
 
+/*
+ * @brief   Escribe una cadena en la UART
+ * @param	La cadena a escribir
+ */
 void UART_Write(const char *str)
 {
 	uartWriteString(menuUart, str);
 }
 
+/*
+ * @brief   Detecta si hay algun byte sin leer en el buffer de la UART
+ * @return  TRUE si hay algun byte disponible para leer desde la UART
+ */
 bool_t UART_Available()
 {
 	return(uartRxReady(menuUart));
 }
 
+/*
+ * @brief   Despliega en la UART las opciones de un menu
+ * @param	El arreglo con los textos de las opciones del menu
+ * @param	La cantidad de opciones que tiene el menu
+ */
 void UART_ShowOptions(const char **menuOptions, uint8_t lastOptionIndex)
 {
 	uint8_t i;
@@ -95,31 +126,37 @@ void UART_ShowOptions(const char **menuOptions, uint8_t lastOptionIndex)
 	}
 }
 
+/*
+ * @brief   Envia un comando VT100 a la terminal
+ * @param	El texto del codigo del comando VT100
+ */
 void UART_sendTerminalCommand(const char *command)
 {
 	uartWriteByte(menuUart, 27); // envio el caracter ESC
 	uartWriteString(menuUart, command); // envio el comando
 }
 
+/*
+ * @brief   Borra la pantalla de la terminal
+ */
 void UART_clearTerminal()
 {
 	UART_sendTerminalCommand(CLEAR_SCREEN);
 }
 
+/*
+ * @brief   Posiciona el cursor de la terminal en el inicio de la pantalla
+ */
 void UART_cursorHome()
 {
 	UART_sendTerminalCommand(CURSOR_HOME);
 }
 
-void UART_getCursorPosition()
-{
-	char readLine[32];
-	uartWriteByte(menuUart, 27); // ESC
-	uartWriteString(menuUart, GET_CURSOR_POS); // Cursor to home
-	UART_ReadLine(readLine, 32);
-	uartWriteString(menuUart, readLine);
-}
-
+/*
+ * @brief   Coloca el cursor de la terminal en una determinada posicion
+ * @param	El numero de linea para la posicion vertical del cursor
+ * @param	El numero de linea para la posicion horizontal del cursor
+ */
 void UART_setCursorPosition(uint8_t v, uint8_t h)
 {
 	char command[11];
@@ -128,6 +165,10 @@ void UART_setCursorPosition(uint8_t v, uint8_t h)
 	UART_sendTerminalCommand(command);
 }
 
+/*
+ * @brief   Desplaza el cursor de la terminal en una cierta cantidad de lineas hacia abajo
+ * @param	La cantidad de lineas a desplazarse
+ */
 void UART_moveCursorNDown(uint8_t n)
 {
 	char command[11];
@@ -136,6 +177,10 @@ void UART_moveCursorNDown(uint8_t n)
 	UART_sendTerminalCommand(command);
 }
 
+/*
+ * @brief   Desplaza el cursor de la terminal en una cierta cantidad de lineas hacia arriba
+ * @param	La cantidad de lineas a desplazarse
+ */
 void UART_moveCursorNUp(uint8_t n)
 {
 	char command[11];
@@ -143,5 +188,3 @@ void UART_moveCursorNUp(uint8_t n)
 	sprintf(command, "[%dA", n);
 	UART_sendTerminalCommand(command);
 }
-
-

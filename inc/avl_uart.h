@@ -12,7 +12,7 @@
 #define UART_TIMEOUT			20000 // ms
 
 #define MAX_STR_OPTION_INDEX	6
-#define MAX_INPUT_LINE			3
+#define MAX_INPUT_BUFFER		3
 
 #define INVALID_OPTION			0xFF
 
@@ -41,7 +41,6 @@ bool_t UART_Available();
 void UART_ShowOptions(const char **menuOptions, uint8_t lastOptionIndex);
 void UART_clearTerminal();
 void UART_cursorHome();
-void UART_getCursorPosition();
 void UART_setCursorPosition(uint8_t v, uint8_t h);
 void UART_moveCursorNDown(uint8_t n);
 void UART_moveCursorNUp(uint8_t n);

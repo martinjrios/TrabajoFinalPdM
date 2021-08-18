@@ -28,6 +28,9 @@ Ingrese el numero de una de las opciones y presione ENTER:
 ```
 
 ### Condiciones de funcionamiento
+#### Hardware
+EDU-CIAA-NXP
+
 #### Ejecución
 Ejecutar en una terminal serie que soporte los códigos de escape VT100. Por ejemplo, en Linux utilizar GTKTerm.
 

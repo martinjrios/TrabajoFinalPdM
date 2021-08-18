@@ -6,4 +6,10 @@
 #define TICK_RATE_MIN	1  // ms
 #define TICK_RATE_MAX	50 // ms
 
+typedef enum
+{
+	MENU,
+	OTHER_TASKS,
+}stateMain_t;
+
 #endif // TPFINALPDM_TRABAJOFINALPDM_INC_AVL_MAIN_H_

@@ -57,13 +57,14 @@ static char serverAddress[SERVER_LENGTH];
 /*
  * @brief   Actualiza la maquina de estados del Menu
  */
-void updateMenuFSM()
+bool_t updateMenuFSM()
 {
 	static stateMenu_t stateMenu = START;
 	static stateSubmenu_t stateSubmenu = WAITING_INPUT;
 	char password[PASS_LENGTH], outputLine[MAX_TEXT];
 	uint8_t len, menuOption = 0;
 	static delay_t delayStatus;
+	bool_t ret = TRUE;
 
 	switch(stateMenu)
 	{
@@ -91,7 +92,10 @@ void updateMenuFSM()
 				}
 				else
 				{
+					UART_clearTerminal();
+					UART_cursorHome();
 					UART_WriteLine(invalidPassword);
+					UART_Write(lockedWarning);
 				}
 			}
 		}
@@ -352,8 +356,8 @@ void updateMenuFSM()
 					UART_clearTerminal();
 					UART_cursorHome();
 					UART_WriteLine(exitMenuText);
-					UART_Write(lockedWarning);
 					stateMenu = LOCKED;
+					ret = FALSE;
 					break;
 				case OPTION_NO:
 					showMainMenu();
@@ -368,6 +372,8 @@ void updateMenuFSM()
 		stateMenu = START;
 		break;
 	}
+
+	return ret;
 }
 
 /*

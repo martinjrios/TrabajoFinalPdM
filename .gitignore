@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Custom
+token.txt
+*.pdf
+*.dia
+out/

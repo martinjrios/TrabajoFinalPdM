@@ -58,7 +58,7 @@ typedef enum
 	WAITING_OPTION,
 }stateSubmenu_t;
 
-void updateMenuFSM();
+bool_t updateMenuFSM();
 static void showMainMenu();
 static void showMenu(const char *menuText, const char *menuFooter, const char **options, uint8_t nrOptions);
 static bool_t checkPassword(char *password);

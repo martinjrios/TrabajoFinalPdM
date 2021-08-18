@@ -56,6 +56,7 @@ static char serverAddress[SERVER_LENGTH];
 
 /*
  * @brief   Actualiza la maquina de estados del Menu
+ * @return  FALSE cuando se ingresa la opcion salir
  */
 bool_t updateMenuFSM()
 {
@@ -161,6 +162,7 @@ bool_t updateMenuFSM()
 				break;
 
 			default:
+				UART_sendTerminalCommand(CLEAR_LINE);
 				UART_WriteLine(invalidOption);
 				break;
 			}

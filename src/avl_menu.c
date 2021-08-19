@@ -34,7 +34,7 @@ static const char errorText[] = "Ha ocurrido un error. Intente nuevamente...";
 static const char emptyID[] = "No se ha asignado un ID al equipo";
 static const char emptyServer[] = "No se ha asignado un servidor al equipo";
 
-const char *OptionsMenu[] =
+static const char *OptionsMenu[] =
 {
 		"CONFIGURAR ID",
 		"CONFIGURAR SERVIDOR",
@@ -45,7 +45,7 @@ const char *OptionsMenu[] =
 		"SALIR"
 };
 
-const char *ConfirmOptions[] =
+static const char *ConfirmOptions[] =
 {
 		"SI",
 		"NO"
